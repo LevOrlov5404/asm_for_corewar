@@ -12,11 +12,12 @@
 
 #include "../include/assembler.h"
 
-void	fill_arg(t_arg *arg, /*unsigned*/ int val, int size)
+void	fill_arg(t_arg *arg, /*unsigned*/ int val, int size, int code)
 {
 	int	i;
 	
 	arg->size = size;
+	arg->code = code;
 	if (size == 1)
 	{
 		arg->bytes[0] = val;
@@ -34,6 +35,6 @@ void	fill_arg(t_arg *arg, /*unsigned*/ int val, int size)
 		arg->bytes[2] = val >> 8;
 		arg->bytes[1] = val >> 16;
 		arg->bytes[0] = val >> 24;
-		printf("%.2x %.2x %.2x %.2x\n", arg->bytes[0], arg->bytes[1], arg->bytes[2], arg->bytes[3]);
+		// printf("%.2x %.2x %.2x %.2x\n", arg->bytes[0], arg->bytes[1], arg->bytes[2], arg->bytes[3]);
 	}
 }

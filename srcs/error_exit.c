@@ -42,6 +42,14 @@ void	error_exit(t_asm *ass, int error_num)
 	{
 		printf("ERROR. Not full operation at [%.3i:%.3i]\n", ass->y + 1, ass->x + 1);
 	}
+	else if (error_num == 6)
+	{
+		printf("ERROR. T_REG can be only from 1 to 16\n");
+	}
+	else if (error_num == 7)
+	{
+		printf("ERROR. Expected label_char for label starting with \"%c\" at [%.3i:%.3i]\n", ass->line[ass->x], ass->y + 1, ass->x + 1);
+	}
 	else
 		printf("ERROR\n");
 	if (ass)

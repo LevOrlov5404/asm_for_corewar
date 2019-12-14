@@ -18,6 +18,7 @@ t_oper	*create_oper(int op_num, int pos_num)
 
 	oper = (t_oper*)ft_memalloc(sizeof(t_oper));
 	oper->op_num = op_num;
+	oper->ops = g_ops[op_num];
 	oper->pos_num = pos_num;
 	return (oper);
 }

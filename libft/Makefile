@@ -37,16 +37,16 @@ INCLUDES = ./
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
 $(OBJ) : $(SRC) libft.h
-	@gcc -Wall -Wextra -Werror -I $(INCLUDES) -c $(SRC)
+	gcc -Wall -Wextra -Werror -I $(INCLUDES) -c $(SRC)
 
 clean:
-	@/bin/rm -f *.o
+	/bin/rm -f *.o
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	/bin/rm -f $(NAME)
 
 re: fclean all

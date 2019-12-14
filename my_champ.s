@@ -1,4 +1,16 @@
 .comment"aff, just kidding"
 .name"laugh"                   
 
-     live %46
+#dieedede
+
+lifeiscor: 
+live:
+	live	%9999999 
+
+	st r6 ,  11 #lskwowowww
+st:
+
+
+
+
+		  

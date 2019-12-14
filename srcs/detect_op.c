@@ -15,13 +15,24 @@
 void	set_arg_value(t_asm *ass, t_arg *arg, char type, int dir_size)
 {
 	char	*s;
+	int		n;
 	
 	// printf("type = %d\n", type);
 	// printf("T_REG = %d T_DIR = %d T_IND = %d\n", (type & T_REG) == T_REG, (type & T_DIR) == T_DIR, (type & T_REG) == T_REG);
 	if ((type & T_REG) == T_REG && ass->line[ass->x] == 'r')
 	{
-		++ass->x; // it seens that it should be 1 <= x <= 16
-
+		++ass->x;
+		if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
+		{
+			n = ft_atoi_asm(ass, ass->line + ass->x);
+			if (n >= 1 && n <= 16)
+				fill_arg(arg, n, 1, REG_CODE);
+			else
+				error_exit(ass, 6);
+		}
+		else
+			error_exit(ass, 4);
+		
 	}
 	else if ((type & T_DIR) == T_DIR && ass->line[ass->x] == DIRECT_CHAR)
 	{
@@ -32,19 +43,27 @@ void	set_arg_value(t_asm *ass, t_arg *arg, char type, int dir_size)
 			s = get_s_before_spaces(ass->line + ass->x);
 		}
 		else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
-			fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), dir_size);
+			fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), dir_size, DIR_CODE);
 		else
 			error_exit(ass, 4);
 	}
-	else if ((type & T_REG) == T_REG)
+	else if ((type & T_IND) == T_IND)
 	{
 		if (ass->line[ass->x] == LABEL_CHAR)
 		{
 			// T_IND do with labels
 			s = get_s_before_spaces(ass->line + ass->x);
 		}
-		else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
-			fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2);
+		else if (ass->line[ass->x] == '-')
+		{
+			++ass->x;
+			if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
+				fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2, IND_CODE);
+			else
+				error_exit(ass, 4);
+		}
+		else if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
+			fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2, IND_CODE);
 		else
 			error_exit(ass, 4);
 	}
@@ -52,80 +71,49 @@ void	set_arg_value(t_asm *ass, t_arg *arg, char type, int dir_size)
 		error_exit(ass, 4);
 }
 
-void	do_with_live(t_asm *ass)
+void	do_with_oper(t_asm *ass, int op_num)
 {
 	t_oper	*oper;
-	char	*s;
-	int		arg_num;
+	int		arg;
+	int		tmp_comma;
 
-	// printf("IN do_with_live\n");
-	oper = add_oper(ass, 0);
-	arg_num = 0;
+	// printf("_______ IN %s ________\n%.2x\n", g_ops[op_num].name, op_num + 1);
+	oper = add_oper(ass, op_num);
+	arg = 0;
+	tmp_comma = 0;
 	while (ass->line[ass->x])
 	{
+		if (ass->line[ass->x] == COMMENT_CHAR || ass->line[ass->x] == ALT_COMMENT_CHAR)
+			break ;
 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 		{
-			if (arg_num < 1)
+			if (tmp_comma < arg)
 			{
-				set_arg_value(ass, &oper->arg[0], T_DIR, 4);
-				++arg_num;
-			}
-			else
-				error_exit(ass, 4);
-		}
-		else
-			++ass->x;
-	}
-	if (arg_num < 1)
-		error_exit(ass, 5);
-	oper->size = 5;
-}
-
-void	do_with_ld(t_asm *ass)
-{
-	t_oper	*oper;
-	char	*s;
-
-	// printf("IN do_with_ld\n");
-	oper = add_oper(ass, 1);
-	while (ass->line[ass->x])
-	{
-		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-		{
-			if (ass->line[ass->x] == SEPARATOR_CHAR)
-			{
-				// smth about separator
-			}
-			else if (ass->line[ass->x] == 'r')
-			{
-				// smth about reg
-			}
-			else if (ass->line[ass->x] == DIRECT_CHAR)
-			{
-				++ass->x;
-				if (ass->line[ass->x] == LABEL_CHAR)
-				{
-					// T_DIR do with labels
-					s = get_s_before_spaces(ass->line + ass->x);
-				}
-				else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
-					fill_arg(&oper->arg[0], ft_atoi_asm(ass, ass->line + ass->x), 4);
-				else
+				if (ass->line[ass->x] != SEPARATOR_CHAR)
 					error_exit(ass, 4);
+				++tmp_comma;
+				++ass->x;
 			}
-			else if (ass->line[ass->x] == LABEL_CHAR)
+			else if (arg < oper->ops.args_number)
 			{
-				// T_IND do with labels
-				s = get_s_before_spaces(ass->line + ass->x);
+				set_arg_value(ass, &oper->arg[arg], oper->ops.args_type[arg], oper->ops.t_dir_size);
+				++arg;
 			}
-			else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
-				fill_arg(&oper->arg[0], ft_atoi_asm(ass, ass->line + ass->x), 2);
 			else
 				error_exit(ass, 4);
 		}
 		else
 			++ass->x;
 	}
+	if (arg < oper->ops.args_number)
+		error_exit(ass, 5);
+	if (oper->ops.args_type_code)
+	{
+		oper->args_type_code = (oper->arg[0].code << 6) | (oper->arg[1].code << 4) | oper->arg[2].code;
+		// printf("args_type_code = %x\n", oper->args_type_code);
+	}
+	oper->size = 2 + oper->arg[0].size + oper->arg[1].size + oper->arg[2].size;
+	// printf("pos_num = %d op_size = %d\n", oper->pos_num, oper->size);
 }
 
 int 	detect_op(t_asm *ass)
@@ -134,68 +122,82 @@ int 	detect_op(t_asm *ass)
 	if (!ft_strncmp(ass->line + ass->x, "live", 4))
 	{
 		ass->x += 4;
-		do_with_live(ass);
+		do_with_oper(ass, 0);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "ld", 2))
 	{
 		ass->x += 2;
-		do_with_ld(ass);
+		do_with_oper(ass, 1);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "st", 2))
 	{
-		// do_with_live
+		ass->x += 2;
+		do_with_oper(ass, 2);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "add", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 3);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "sub", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 4);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "and", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 5);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "or", 2))
 	{
-		// do_with_live
+		ass->x += 2;
+		do_with_oper(ass, 6);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "xor", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 7);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "zjmp", 4))
 	{
-		// do_with_live
+		ass->x += 4;
+		do_with_oper(ass, 8);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "ldi", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 9);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "sti", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 10);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "fork", 4))
 	{
-		// do_with_live
+		ass->x += 4;
+		do_with_oper(ass, 11);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "lld", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 12);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "lldi", 4))
 	{
-		// do_with_live
+		ass->x += 4;
+		do_with_oper(ass, 13);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "lfork", 5))
 	{
-		// do_with_live
+		ass->x += 5;
+		do_with_oper(ass, 14);
 	}
 	else if (!ft_strncmp(ass->line + ass->x, "aff", 3))
 	{
-		// do_with_live
+		ass->x += 3;
+		do_with_oper(ass, 15);
 	}
 	else
 		return (0);

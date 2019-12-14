@@ -31,11 +31,13 @@ typedef struct		s_arg
 	unsigned char	bytes[4];
 	char			*lbl;
 	int				size; // to understand how many bites we need
+	char			code; // to understand code of arg: reg, dir ot ind
 }					t_arg;
 
 typedef struct		s_oper
 {
 	int				op_num;
+	t_ops			ops;
 	unsigned char	args_type_code;
 	int				pos_num;
 	int				size;
@@ -68,7 +70,7 @@ void	error_exit(t_asm *ass, int error_num);
 char	*get_s_before_spaces(char *s1);
 void	get_name_and_comment(t_asm *ass);
 
-void	fill_arg(t_arg *arg, /*unsigned*/ int val, int size);
+void	fill_arg(t_arg *arg, /*unsigned*/ int val, int size, int type);
 t_oper	*create_oper(int op_num, int pos_num);
 t_oper	*add_oper(t_asm *ass, int op_num);
 

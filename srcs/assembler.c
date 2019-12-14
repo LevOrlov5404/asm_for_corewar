@@ -28,6 +28,7 @@ int		create_ass(t_asm **ass)
 void	reading(t_asm *ass)
 {
 	char	*str;
+	int		len;
 
 	// now i don't spot comments => add later
 	get_name_and_comment(ass);
@@ -38,18 +39,31 @@ void	reading(t_asm *ass)
 		while (ass->line[ass->x])
 		{
 			// printf("x = %d\n", ass->x);
+			if (ass->line[ass->x] == COMMENT_CHAR || ass->line[ass->x] == ALT_COMMENT_CHAR)
+				break ;
 			if (ass->line[ass->x] == ' ' || ass->line[ass->x] == '\t')
 				++ass->x;
 			else if (!detect_op(ass))
 			{
 				// detect_lbl
-				// error
-				// ass->err_token = s1_before_spaces_in_input_s2(line + ass->x);
-				// error_exit(ass, 4);
-				++ass->x;
+				len = ass->x;
+				while (ass->line[len] && ft_strchr(LABEL_CHARS, ass->line[len]))
+					++len;
+				if (ass->line[len] != LABEL_CHAR)
+					error_exit(ass, 7);
+				str = ft_str_sub_n(ass->line + ass->x, len - ass->x);
+				printf("label = %s\n", str);
+				ass->x = len + 1;
+				while (ass->line[ass->x])
+				{
+					if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
+						error_exit(ass, 4);
+					++ass->x;
+				}
 			}
 		}
 		++ass->y;
+		ft_strdel(&ass->line);
 	}
 }
 
@@ -64,10 +78,10 @@ int     main(int argc, char **argv)
 	ass->file_name = argv[1];
 	// if ((ass->fd = open(ass->file_name, O_RDONLY)) == -1)
 	// 	error_exit(ass, 1);
-	// if ((ass->fd = open("/Users/pnita/my_work/corewar/assembler/my_champ.s", O_RDONLY)) == -1)
-	// 	error_exit(ass, 1);
-	if ((ass->fd = open("/home/lev/mywork/asm_for_corewar/my_champ.s", O_RDONLY)) == -1)
+	if ((ass->fd = open("/Users/pnita/my_work/asm_for_corewar/my_champ.s", O_RDONLY)) == -1)
 		error_exit(ass, 1);
+	// if ((ass->fd = open("/home/lev/mywork/asm_for_corewar/my_champ.s", O_RDONLY)) == -1)
+	// 	error_exit(ass, 1);
 	reading(ass);
 	return (0);
 }
