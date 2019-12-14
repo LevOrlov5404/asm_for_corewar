@@ -12,27 +12,6 @@
 
 #include "../include/assembler.h"
 
-char	*get_s_before_spaces(char *s1)
-{
-	int		i;
-	int		len;
-	char	*s2;
-
-	if (!s1 || !*s1)
-		return (NULL);
-	len = 0;
-	while (s1[len] && s1[len] != ' ' && s1[len] != '\t')
-		++len;
-	s2 = ft_strnew(len);
-	i = 0;
-	while (i < len)
-	{
-		s2[i] = s1[i];
-		++i;
-	}
-	return (s2);
-}
-
 void	get_name(t_asm *ass)
 {
 	// printf("IN GET_NAME\n");

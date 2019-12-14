@@ -12,61 +12,72 @@
 
 #include "../include/assembler.h"
 
-void	set_arg_value(t_asm *ass, t_arg *arg, char type, int dir_size)
+void	set_t_reg(t_asm *ass, t_arg *arg)
+{
+	int		n;
+
+	++ass->x;
+	if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
+	{
+		n = ft_atoi_asm(ass, ass->line + ass->x);
+		if (n >= 1 && n <= 16)
+			fill_arg(arg, n, 1, REG_CODE);
+		else
+			error_exit(ass, 6);
+	}
+	else
+		error_exit(ass, 4);
+}
+
+void	set_t_dir(t_asm *ass, t_arg *arg, int dir_size)
 {
 	char	*s;
-	int		n;
+	int		len;
 	
-	// printf("type = %d\n", type);
-	// printf("T_REG = %d T_DIR = %d T_IND = %d\n", (type & T_REG) == T_REG, (type & T_DIR) == T_DIR, (type & T_REG) == T_REG);
-	if ((type & T_REG) == T_REG && ass->line[ass->x] == 'r')
+	++ass->x;
+	if (ass->line[ass->x] == LABEL_CHAR)
+	{
+		// T_DIR do with labels
+	}
+	else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
+		fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), dir_size, DIR_CODE);
+	else
+		error_exit(ass, 4);
+}
+
+void	set_t_ind(t_asm *ass, t_arg *arg)
+{
+	char	*s;
+	int		len;
+	
+	if (ass->line[ass->x] == LABEL_CHAR)
+	{
+		// T_IND do with labels
+	}
+	else if (ass->line[ass->x] == '-')
 	{
 		++ass->x;
 		if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
-		{
-			n = ft_atoi_asm(ass, ass->line + ass->x);
-			if (n >= 1 && n <= 16)
-				fill_arg(arg, n, 1, REG_CODE);
-			else
-				error_exit(ass, 6);
-		}
-		else
-			error_exit(ass, 4);
-		
-	}
-	else if ((type & T_DIR) == T_DIR && ass->line[ass->x] == DIRECT_CHAR)
-	{
-		++ass->x;
-		if (ass->line[ass->x] == LABEL_CHAR)
-		{
-			// T_DIR do with labels
-			s = get_s_before_spaces(ass->line + ass->x);
-		}
-		else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
-			fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), dir_size, DIR_CODE);
-		else
-			error_exit(ass, 4);
-	}
-	else if ((type & T_IND) == T_IND)
-	{
-		if (ass->line[ass->x] == LABEL_CHAR)
-		{
-			// T_IND do with labels
-			s = get_s_before_spaces(ass->line + ass->x);
-		}
-		else if (ass->line[ass->x] == '-')
-		{
-			++ass->x;
-			if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
-				fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2, IND_CODE);
-			else
-				error_exit(ass, 4);
-		}
-		else if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
 			fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2, IND_CODE);
 		else
 			error_exit(ass, 4);
 	}
+	else if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
+		fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2, IND_CODE);
+	else
+		error_exit(ass, 4);
+}
+
+void	set_arg_value(t_asm *ass, t_arg *arg, char type, int dir_size)
+{
+	// printf("type = %d\n", type);
+	// printf("T_REG = %d T_DIR = %d T_IND = %d\n", (type & T_REG) == T_REG, (type & T_DIR) == T_DIR, (type & T_REG) == T_REG);
+	if ((type & T_REG) == T_REG && ass->line[ass->x] == 'r')
+		set_t_reg(ass, arg);
+	else if ((type & T_DIR) == T_DIR && ass->line[ass->x] == DIRECT_CHAR)
+		set_t_dir(ass, arg, dir_size);
+	else if ((type & T_IND) == T_IND)
+		set_t_ind(ass, arg);
 	else
 		error_exit(ass, 4);
 }

@@ -48,7 +48,7 @@ void	error_exit(t_asm *ass, int error_num)
 	}
 	else if (error_num == 7)
 	{
-		printf("ERROR. Expected label_char for label starting with \"%c\" at [%.3i:%.3i]\n", ass->line[ass->x], ass->y + 1, ass->x + 1);
+		printf("ERROR. Incorrect label starting with \"%c\" at [%.3i:%.3i]\n", ass->line[ass->x], ass->y + 1, ass->x + 1);
 	}
 	else
 		printf("ERROR\n");

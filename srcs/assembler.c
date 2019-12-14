@@ -43,23 +43,26 @@ void	reading(t_asm *ass)
 				break ;
 			if (ass->line[ass->x] == ' ' || ass->line[ass->x] == '\t')
 				++ass->x;
-			else if (!detect_op(ass))
+			else
 			{
-				// detect_lbl
 				len = ass->x;
 				while (ass->line[len] && ft_strchr(LABEL_CHARS, ass->line[len]))
 					++len;
-				if (ass->line[len] != LABEL_CHAR)
-					error_exit(ass, 7);
-				str = ft_str_sub_n(ass->line + ass->x, len - ass->x);
-				printf("label = %s\n", str);
-				ass->x = len + 1;
-				while (ass->line[ass->x])
+				if (ass->line[len] == LABEL_CHAR)
 				{
-					if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-						error_exit(ass, 4);
-					++ass->x;
+					str = ft_str_sub_n(ass->line + ass->x, len - ass->x);
+					ass->lbl[hash(str)] = create_lbl(str, (ass->bot ? ass->bot->pos_num + ass->bot->size : 0));
+					// printf("label = %s pos = %d\n", ass->lbl[hash(str)]->name, ass->lbl[hash(str)]->pos_num);
+					ass->x = len + 1;
+					while (ass->line[ass->x])
+					{
+						if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
+							error_exit(ass, 4);
+						++ass->x;
+					}
 				}
+				else if (ass->line[ass->x] && !detect_op(ass))
+					error_exit(ass, 7);
 			}
 		}
 		++ass->y;

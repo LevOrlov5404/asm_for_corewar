@@ -24,6 +24,16 @@ size_t			hash(char *input)
 	return (hash_num % LBLS_SIZE);
 }
 
+t_lbl			*create_lbl(char *name, int pos_num)
+{
+	t_lbl	*lbl;
+
+	lbl = (t_lbl*)ft_memalloc(sizeof(t_lbl));
+	lbl->name = name;
+	lbl->pos_num = pos_num;
+	return (lbl);
+}
+
 t_lbl			*find_lbl(t_asm *ass, char *name)
 {
 	t_lbl		*tmp_lbl;

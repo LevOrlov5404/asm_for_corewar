@@ -65,15 +65,18 @@ typedef struct	s_asm
 }				t_asm;
 
 char			*ft_str_sub_n(char *s1, int n);
-int		ft_atoi_asm(t_asm *ass, const char *str);
-void	error_exit(t_asm *ass, int error_num);
-char	*get_s_before_spaces(char *s1);
-void	get_name_and_comment(t_asm *ass);
+int				ft_atoi_asm(t_asm *ass, const char *str);
+void			error_exit(t_asm *ass, int error_num);
+void			get_name_and_comment(t_asm *ass);
 
-void	fill_arg(t_arg *arg, /*unsigned*/ int val, int size, int type);
-t_oper	*create_oper(int op_num, int pos_num);
-t_oper	*add_oper(t_asm *ass, int op_num);
+size_t			hash(char *input);
+t_lbl			*create_lbl(char *name, int pos_num);
+t_lbl			*find_lbl(t_asm *ass, char *name);
 
-int		detect_op(t_asm *ass);
+void			fill_arg(t_arg *arg, /*unsigned*/ int val, int size, int type);
+t_oper			*create_oper(int op_num, int pos_num);
+t_oper			*add_oper(t_asm *ass, int op_num);
+
+int				detect_op(t_asm *ass);
 
 #endif

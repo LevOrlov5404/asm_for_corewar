@@ -3,12 +3,13 @@
 
 #dieedede
 
-lifeiscor: 
+lif1eiscor: 
 live:
-	live	%9999999 
-
+	live	%30
+ld		%25, r16
 	st r6 ,  11 #lskwowowww
 st:
+
 
 
 
