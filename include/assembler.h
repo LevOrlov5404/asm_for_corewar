@@ -29,10 +29,17 @@ typedef struct		s_lbl
 typedef struct		s_arg
 {
 	unsigned char	bytes[4];
-	char			*lbl;
 	int				size; // to understand how many bites we need
 	char			code; // to understand code of arg: reg, dir ot ind
 }					t_arg;
+
+typedef struct			s_lbl_arg
+{
+	struct s_arg		*arg;
+	int					oper_pos;
+	char				*lbl;
+	struct s_lbl_arg	*next;
+}						t_lbl_arg;
 
 typedef struct		s_oper
 {
@@ -62,6 +69,8 @@ typedef struct	s_asm
 	t_oper		*top;
 	t_oper		*bot;
 	t_lbl		**lbl;
+	t_lbl_arg	*lbl_arg_top;
+	t_lbl_arg	*lbl_arg_bot;
 }				t_asm;
 
 char			*ft_str_sub_n(char *s1, int n);
@@ -78,5 +87,7 @@ t_oper			*create_oper(int op_num, int pos_num);
 t_oper			*add_oper(t_asm *ass, int op_num);
 
 int				detect_op(t_asm *ass);
+
+void			add_lbl_arg(t_asm *ass, t_arg *arg, char *lbl);
 
 #endif

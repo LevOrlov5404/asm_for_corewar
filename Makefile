@@ -30,6 +30,7 @@ SOURCES = assembler.c \
 		  lbls.c \
 		  oper.c \
 		  arg.c \
+		  lbl_arg.c \
 
 SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
 
