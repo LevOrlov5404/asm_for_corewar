@@ -47,7 +47,7 @@ void	set_t_dir(t_asm *ass, t_arg *arg, int dir_size)
 		arg->size = dir_size;
 		arg->code = DIR_CODE;
 		add_lbl_arg(ass, arg, lbl);
-		printf("lbl = %s lbl->pos = %d\n", ass->lbl_arg_bot->lbl, ass->lbl_arg_bot->oper_pos);
+		// printf("lbl = %s lbl->pos = %d\n", ass->lbl_arg_bot->lbl, ass->lbl_arg_bot->oper_pos);
 		ass->x = len;
 	}
 	else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
@@ -73,7 +73,7 @@ void	set_t_ind(t_asm *ass, t_arg *arg)
 		arg->size = 2;
 		arg->code = IND_CODE;
 		add_lbl_arg(ass, arg, lbl);
-		printf("lbl = %s lbl->pos = %d\n", ass->lbl_arg_bot->lbl, ass->lbl_arg_bot->oper_pos);
+		// printf("lbl = %s lbl->pos = %d\n", ass->lbl_arg_bot->lbl, ass->lbl_arg_bot->oper_pos);
 		ass->x = len;
 	}
 	else if (ass->line[ass->x] == '-')
@@ -110,7 +110,7 @@ void	do_with_oper(t_asm *ass, int op_num)
 	int		arg;
 	int		tmp_comma;
 
-	printf("_______ IN %s ________\n%.2x\n", g_ops[op_num].name, op_num + 1);
+	// printf("_______ IN %s ________\n%.2x\n", g_ops[op_num].name, op_num + 1);
 	oper = add_oper(ass, op_num);
 	arg = 0;
 	tmp_comma = 0;
@@ -146,7 +146,7 @@ void	do_with_oper(t_asm *ass, int op_num)
 		// printf("args_type_code = %x\n", oper->args_type_code);
 	}
 	oper->size = (oper->ops.args_type_code ? 2 : 1) + oper->arg[0].size + oper->arg[1].size + oper->arg[2].size;
-	printf("pos_num = %d op_size = %d\n", oper->pos_num, oper->size);
+	// printf("pos_num = %d op_size = %d\n", oper->pos_num, oper->size);
 }
 
 int 	detect_op(t_asm *ass)

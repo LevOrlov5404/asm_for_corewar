@@ -50,6 +50,10 @@ void	error_exit(t_asm *ass, int error_num)
 	{
 		printf("ERROR. Incorrect label starting with \"%c\" at [%.3i:%.3i]\n", ass->line[ass->x], ass->y + 1, ass->x + 1);
 	}
+	else if (error_num == 8)
+	{
+		printf("ERROR. Label %s not found\n", ass->error_str);
+	}
 	else
 		printf("ERROR\n");
 	if (ass)

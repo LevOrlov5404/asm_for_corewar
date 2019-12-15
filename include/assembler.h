@@ -71,6 +71,7 @@ typedef struct	s_asm
 	t_lbl		**lbl;
 	t_lbl_arg	*lbl_arg_top;
 	t_lbl_arg	*lbl_arg_bot;
+	char		*error_str;
 }				t_asm;
 
 char			*ft_str_sub_n(char *s1, int n);
@@ -82,7 +83,7 @@ size_t			hash(char *input);
 t_lbl			*create_lbl(char *name, int pos_num);
 t_lbl			*find_lbl(t_asm *ass, char *name);
 
-void			fill_arg(t_arg *arg, /*unsigned*/ int val, int size, int type);
+void			fill_arg(t_arg *arg, /*unsigned*/ int val, int size, int code);
 t_oper			*create_oper(int op_num, int pos_num);
 t_oper			*add_oper(t_asm *ass, int op_num);
 

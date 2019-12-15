@@ -10,7 +10,7 @@ ld		%:stop, r16
 	st r6 ,  11 #lskwowowww
 st:
 
-	st		r1, 235
+	st		r1, :lif1eiscor
 	st		r1, 205
 	ld		%8, r15
 	ld		%1, r16
