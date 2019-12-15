@@ -54,6 +54,14 @@ void	error_exit(t_asm *ass, int error_num)
 	{
 		printf("ERROR. Label %s not found\n", ass->error_str);
 	}
+	else if (error_num == 9)
+	{
+		printf("ERROR. Size of champion name = %d > %d\n", ass->name_len, PROG_NAME_LENGTH);
+	}
+	else if (error_num == 10)
+	{
+		printf("ERROR. Size of champion comment = %d > %d\n", ass->comment_len, COMMENT_LENGTH);
+	}
 	else
 		printf("ERROR\n");
 	if (ass)

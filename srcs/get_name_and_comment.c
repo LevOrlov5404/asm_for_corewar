@@ -24,7 +24,9 @@ void	get_name(t_asm *ass)
 			{
 				++ass->x;
 				if ((ass->name_len = ft_len_before_delim(ass->line + ass->x, '\"')) == -1)
-					error_exit(ass, 5);
+					error_exit(ass, 3);
+				if (ass->name_len > PROG_NAME_LENGTH)
+					error_exit(ass, 9);
 				ass->name = ft_str_sub_n(ass->line + ass->x, ass->name_len);
 				ass->x += ass->name_len;
 			}
@@ -48,7 +50,9 @@ void	get_comment(t_asm *ass)
 			{
 				++ass->x;
 				if ((ass->comment_len = ft_len_before_delim(ass->line + ass->x, '\"')) == -1)
-					error_exit(ass, 5);
+					error_exit(ass, 3);
+				if (ass->comment_len > COMMENT_LENGTH)
+					error_exit(ass, 10);
 				ass->comment = ft_str_sub_n(ass->line + ass->x, ass->comment_len);
 				ass->x += ass->comment_len;
 			}

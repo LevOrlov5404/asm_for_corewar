@@ -53,15 +53,19 @@ void	reading(t_asm *ass)
 				{
 					str = ft_str_sub_n(ass->line + ass->x, len - ass->x);
 					
-					if (!(lbl = ass->lbl[hash(str)]))
-						lbl = create_lbl(str, (ass->bot ? ass->bot->pos_num + ass->bot->size : 0));
+					if (!ass->lbl[hash(str)])
+					{
+						ass->lbl[hash(str)] = create_lbl(str, (ass->bot ? ass->bot->pos_num + ass->bot->size : 0));
+						printf("label = %s pos = %d\n", ass->lbl[hash(str)]->name, ass->lbl[hash(str)]->pos_num);
+					}
 					else
 					{
+						lbl = ass->lbl[hash(str)];
 						while (lbl->same_hash) // add smth if the same lbl again
 							lbl = lbl->same_hash;
 						lbl = create_lbl(str, (ass->bot ? ass->bot->pos_num + ass->bot->size : 0));
+						printf("label = %s pos = %d\n", lbl->name, lbl->pos_num);
 					}
-					printf("label = %s pos = %d\n", lbl->name, lbl->pos_num);
 					ass->x = len + 1;
 					while (ass->line[ass->x])
 					{
@@ -85,7 +89,7 @@ void	fill_lbl_arg(t_asm *ass)
 	t_lbl		*lbl;
 
 	// printf("IN fill_lbl_arg\n");
-	lbl_arg = ass->lbl_arg_bot;
+	lbl_arg = ass->lbl_arg_top;
 	while (lbl_arg)
 	{
 		if (!(lbl = find_lbl(ass, lbl_arg->lbl)))
@@ -115,6 +119,6 @@ int     main(int argc, char **argv)
 	if ((ass->fd = open("/home/lev/mywork/asm_for_corewar/my_champ.s", O_RDONLY)) == -1)
 		error_exit(ass, 1);
 	reading(ass);
-	// fill values in lbl_arg
+	fill_lbl_arg(ass);
 	return (0);
 }
