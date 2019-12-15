@@ -55,16 +55,16 @@ void	reading(t_asm *ass)
 					
 					if (!ass->lbl[hash(str)])
 					{
-						ass->lbl[hash(str)] = create_lbl(str, (ass->bot ? ass->bot->pos_num + ass->bot->size : 0));
-						printf("label = %s pos = %d\n", ass->lbl[hash(str)]->name, ass->lbl[hash(str)]->pos_num);
+						ass->lbl[hash(str)] = create_lbl(str, ass->current_pos);
+						// printf("label = %s pos = %d\n", ass->lbl[hash(str)]->name, ass->lbl[hash(str)]->pos_num);
 					}
 					else
 					{
 						lbl = ass->lbl[hash(str)];
 						while (lbl->same_hash) // add smth if the same lbl again
 							lbl = lbl->same_hash;
-						lbl = create_lbl(str, (ass->bot ? ass->bot->pos_num + ass->bot->size : 0));
-						printf("label = %s pos = %d\n", lbl->name, lbl->pos_num);
+						lbl = create_lbl(str, ass->current_pos);
+						// printf("label = %s pos = %d\n", lbl->name, lbl->pos_num);
 					}
 					ass->x = len + 1;
 					while (ass->line[ass->x])

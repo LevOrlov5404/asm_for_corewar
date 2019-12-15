@@ -62,6 +62,10 @@ void	error_exit(t_asm *ass, int error_num)
 	{
 		printf("ERROR. Size of champion comment = %d > %d\n", ass->comment_len, COMMENT_LENGTH);
 	}
+	else if (error_num == 11)
+	{
+		printf("ERROR. Size of champion code = %d > %d\n", ass->current_pos, CHAMP_MAX_SIZE);
+	}
 	else
 		printf("ERROR\n");
 	if (ass)

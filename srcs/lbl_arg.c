@@ -27,12 +27,12 @@ void		add_lbl_arg(t_asm *ass, t_arg *arg, char *lbl)
 {
 	if (!ass->lbl_arg_top)
 	{
-		ass->lbl_arg_top = create_lbl_arg(arg, ass->bot->pos_num, lbl);
+		ass->lbl_arg_top = create_lbl_arg(arg, ass->current_pos, lbl);
 		ass->lbl_arg_bot = ass->lbl_arg_top;
 	}
 	else
 	{
-		ass->lbl_arg_bot->next = create_lbl_arg(arg, ass->bot->pos_num, lbl);
+		ass->lbl_arg_bot->next = create_lbl_arg(arg, ass->current_pos, lbl);
 		ass->lbl_arg_bot = ass->lbl_arg_bot->next;
 	}
 }

@@ -79,6 +79,64 @@ forward:
 
 
 
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+st		r1 , r16
+st		r1 , r16
 
 
 		  

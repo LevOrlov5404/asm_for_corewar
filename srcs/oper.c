@@ -27,12 +27,12 @@ t_oper	*add_oper(t_asm *ass, int op_num)
 {
 	if (!ass->top)
 	{
-		ass->top = create_oper(op_num, 0);
+		ass->top = create_oper(op_num, ass->current_pos);
 		ass->bot = ass->top;
 	}
 	else
 	{
-		ass->bot->next = create_oper(op_num, ass->bot->pos_num + ass->bot->size);
+		ass->bot->next = create_oper(op_num, ass->current_pos);
 		ass->bot = ass->bot->next;
 	}
 	return (ass->bot);

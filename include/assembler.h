@@ -46,7 +46,7 @@ typedef struct		s_oper
 	int				op_num;
 	t_ops			ops;
 	unsigned char	args_type_code;
-	int				pos_num;
+	int				pos_num; // we need it?
 	int				size;
 	struct s_arg	arg[3];
 	struct s_oper	*next;
@@ -65,7 +65,7 @@ typedef struct	s_asm
 	int			comment_len;
 	char		*name;
 	char		*comment;
-	int			current_pos; // ??? to understand in what pos we are
+	int			current_pos; // to understand in what pos we are
 	t_oper		*top;
 	t_oper		*bot;
 	t_lbl		**lbl;
