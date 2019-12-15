@@ -29,27 +29,29 @@ void	set_t_reg(t_asm *ass, t_arg *arg)
 		error_exit(ass, 4);
 }
 
-void	set_t_dir(t_asm *ass, t_arg *arg, int dir_size)
+void	set_lbl(t_asm *ass, t_arg *arg, int size, int code)
 {
 	char	*lbl;
 	int		len;
 	
 	++ass->x;
+	len = ass->x;
+	while (ass->line[len] && ft_strchr(LABEL_CHARS, ass->line[len]))
+		++len;
+	if (len < ass->x)
+		error_exit(ass, 4);
+	lbl = ft_str_sub_n(ass->line + ass->x, len - ass->x);
+	arg->size = size;
+	arg->code = code;
+	add_lbl_arg(ass, arg, lbl);
+	ass->x = len;
+}
+
+void	set_t_dir(t_asm *ass, t_arg *arg, int dir_size)
+{
+	++ass->x;
 	if (ass->line[ass->x] == LABEL_CHAR)
-	{
-		++ass->x;
-		len = ass->x;
-		while (ass->line[len] && ft_strchr(LABEL_CHARS, ass->line[len]))
-			++len;
-		if (len < ass->x)
-			error_exit(ass, 4);
-		lbl = ft_str_sub_n(ass->line + ass->x, len - ass->x);
-		arg->size = dir_size;
-		arg->code = DIR_CODE;
-		add_lbl_arg(ass, arg, lbl);
-		// printf("lbl = %s lbl->pos = %d\n", ass->lbl_arg_bot->lbl, ass->lbl_arg_bot->oper_pos);
-		ass->x = len;
-	}
+		set_lbl(ass, arg, dir_size, DIR_CODE);
 	else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
 		fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), dir_size, DIR_CODE);
 	else
@@ -58,24 +60,8 @@ void	set_t_dir(t_asm *ass, t_arg *arg, int dir_size)
 
 void	set_t_ind(t_asm *ass, t_arg *arg)
 {
-	char	*lbl;
-	int		len;
-	
 	if (ass->line[ass->x] == LABEL_CHAR)
-	{
-		++ass->x;
-		len = ass->x;
-		while (ass->line[len] && ft_strchr(LABEL_CHARS, ass->line[len]))
-			++len;
-		if (len < ass->x)
-			error_exit(ass, 4);
-		lbl = ft_str_sub_n(ass->line + ass->x, len - ass->x);
-		arg->size = 2;
-		arg->code = IND_CODE;
-		add_lbl_arg(ass, arg, lbl);
-		// printf("lbl = %s lbl->pos = %d\n", ass->lbl_arg_bot->lbl, ass->lbl_arg_bot->oper_pos);
-		ass->x = len;
-	}
+		set_lbl(ass, arg, 2, IND_CODE);
 	else if (ass->line[ass->x] == '-')
 	{
 		++ass->x;
@@ -92,8 +78,6 @@ void	set_t_ind(t_asm *ass, t_arg *arg)
 
 void	set_arg_value(t_asm *ass, t_arg *arg, char type, int dir_size)
 {
-	// printf("type = %d\n", type);
-	// printf("T_REG = %d T_DIR = %d T_IND = %d\n", (type & T_REG) == T_REG, (type & T_DIR) == T_DIR, (type & T_REG) == T_REG);
 	if ((type & T_REG) == T_REG && ass->line[ass->x] == 'r')
 		set_t_reg(ass, arg);
 	else if ((type & T_DIR) == T_DIR && ass->line[ass->x] == DIRECT_CHAR)
@@ -110,7 +94,6 @@ void	do_with_oper(t_asm *ass, int op_num)
 	int		arg;
 	int		tmp_comma;
 
-	// printf("_______ IN %s ________\n%.2x\n", g_ops[op_num].name, op_num + 1);
 	oper = add_oper(ass, op_num);
 	arg = 0;
 	tmp_comma = 0;
@@ -141,20 +124,14 @@ void	do_with_oper(t_asm *ass, int op_num)
 	if (arg < oper->ops.args_number)
 		error_exit(ass, 5);
 	if (oper->ops.args_type_code)
-	{
 		oper->args_type_code = (oper->arg[0].code << 6) | (oper->arg[1].code << 4) | oper->arg[2].code;
-		// printf("args_type_code = %x\n", oper->args_type_code);
-	}
 	oper->size = (oper->ops.args_type_code ? 2 : 1) + oper->arg[0].size + oper->arg[1].size + oper->arg[2].size;
-	// printf("pos_num = %d op_size = %d\n", oper->pos_num, oper->size);
 	if ((ass->current_pos += oper->size) > CHAMP_MAX_SIZE)
 		error_exit(ass, 11);
-	// printf("current pos = %d\n", ass->current_pos);
 }
 
 int 	detect_op(t_asm *ass)
 {
-	// printf("IN detect_op line[ass->x] = %c\n", line[ass->x]);
 	if (!ft_strncmp(ass->line + ass->x, "live", 4))
 	{
 		ass->x += 4;

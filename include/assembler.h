@@ -77,7 +77,7 @@ typedef struct	s_asm
 	char		*output_file_name;
 }				t_asm;
 
-char			*ft_str_sub_n(char *s1, int n);
+char			*ft_str_sub_n(char *s1, size_t n);
 int				ft_atoi_asm(t_asm *ass, const char *str);
 void			delete_all(t_asm *ass);
 void			error_exit(t_asm *ass, int error_num);
@@ -87,7 +87,7 @@ size_t			hash(char *input);
 t_lbl			*create_lbl(char *name, int pos_num);
 t_lbl			*find_lbl(t_asm *ass, char *name);
 
-void			fill_arg(t_arg *arg, /*unsigned*/ int val, int size, int code);
+void			fill_arg(t_arg *arg, int val, int size, int code);
 t_oper			*create_oper(int op_num, int pos_num);
 t_oper			*add_oper(t_asm *ass, int op_num);
 

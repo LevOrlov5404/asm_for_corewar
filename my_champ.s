@@ -9,6 +9,10 @@ live:
 ld		%:stop, r16
 	st r6 ,  11 #lskwowowww
 st:
+st:
+st:
+st:
+st:
 
 stop:
 
@@ -22,10 +26,21 @@ stop:
 	zjmp	%:start
 
 lf:
+lf:
+lf:
+lf:
+lf:
+
 	live	%9999999
 	lfork	%:lf
 
+
 start:
+start:
+start:
+start:
+start:
+
 	ld		-3, r9
 	ld		-13, r7
 	ld		:lf, r8

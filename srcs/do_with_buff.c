@@ -22,7 +22,6 @@ void	put_s_in_bytes(unsigned char *s, int size, int val)
 	while (i < size)
 	{
 		s[i] = val >> (8 * (size - 1 - i));
-		// printf("%.2x\n", s[i]);
 		++i;
 	}
 }

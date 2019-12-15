@@ -25,21 +25,55 @@ int		create_ass(t_asm **ass)
 	return (1);
 }
 
-void	reading(t_asm *ass)
+void	do_with_lbl(t_asm *ass, int len)
 {
 	char	*str;
-	int		len;
 	t_lbl	*lbl;
+	char	exist;
 
-	// now i don't spot comments => add later
+	exist = 0;
+	str = ft_str_sub_n(ass->line + ass->x, len - ass->x);
+	if (!ass->lbl[hash(str)])
+		ass->lbl[hash(str)] = create_lbl(str, ass->current_pos);
+	else
+	{
+		lbl = ass->lbl[hash(str)];
+		if (!ft_strcmp(str, lbl->name))
+			exist = 1;
+		else
+		{
+			while (lbl->same_hash)
+			{
+				lbl = lbl->same_hash;
+				if (!ft_strcmp(str, lbl->name))
+				{
+					exist = 1;
+					break ;
+				}
+			}
+		}
+		if (!exist)
+			lbl = create_lbl(str, ass->current_pos);
+	}
+	ass->x = len + 1;
+	while (ass->line[ass->x])
+	{
+		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
+			error_exit(ass, 4);
+		++ass->x;
+	}
+}
+
+void	reading(t_asm *ass)
+{
+	int	len;
+
 	get_name_and_comment(ass);
 	while (get_next_line(ass->fd, &ass->line) > 0)
 	{
-		// printf("y = %d\n", ass->y);
 		ass->x = 0;
 		while (ass->line[ass->x])
 		{
-			// printf("x = %d\n", ass->x);
 			if (ass->line[ass->x] == COMMENT_CHAR || ass->line[ass->x] == ALT_COMMENT_CHAR)
 				break ;
 			if (ass->line[ass->x] == ' ' || ass->line[ass->x] == '\t')
@@ -50,29 +84,7 @@ void	reading(t_asm *ass)
 				while (ass->line[len] && ft_strchr(LABEL_CHARS, ass->line[len]))
 					++len;
 				if (ass->line[len] == LABEL_CHAR)
-				{
-					str = ft_str_sub_n(ass->line + ass->x, len - ass->x);
-					if (!ass->lbl[hash(str)])
-					{
-						ass->lbl[hash(str)] = create_lbl(str, ass->current_pos);
-						// printf("label = %s pos = %d\n", ass->lbl[hash(str)]->name, ass->lbl[hash(str)]->pos_num);
-					}
-					else
-					{
-						lbl = ass->lbl[hash(str)];
-						while (lbl->same_hash) // add smth if the same lbl again
-							lbl = lbl->same_hash;
-						lbl = create_lbl(str, ass->current_pos);
-						// printf("label = %s pos = %d\n", lbl->name, lbl->pos_num);
-					}
-					ass->x = len + 1;
-					while (ass->line[ass->x])
-					{
-						if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-							error_exit(ass, 4);
-						++ass->x;
-					}
-				}
+					do_with_lbl(ass, len);
 				else if (ass->line[ass->x] && !detect_op(ass))
 					error_exit(ass, 7);
 			}
@@ -87,7 +99,6 @@ void	fill_lbl_arg(t_asm *ass)
 	t_lbl_arg	*lbl_arg;
 	t_lbl		*lbl;
 
-	// printf("IN fill_lbl_arg\n");
 	lbl_arg = ass->lbl_arg_top;
 	while (lbl_arg)
 	{
@@ -118,8 +129,6 @@ int     main(int argc, char **argv)
 	ass->file_name = argv[1];
 	if ((ass->fd = open(ass->file_name, O_RDONLY)) == -1)
 		error_exit(ass, 1);
-	// if ((ass->fd = open("my_champ.s", O_RDONLY)) == -1)
-	// 	error_exit(ass, 1);
 	reading(ass);
 	fill_lbl_arg(ass);
 	write_to_file(ass);

@@ -9,6 +9,9 @@ live:
 ld		%:stop, r16
 	st r6 ,  11 #lskwowowww
 st:
+st:
+st:
+st:
 
 stop:
 

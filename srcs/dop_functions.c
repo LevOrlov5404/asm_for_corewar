@@ -12,10 +12,10 @@
 
 #include "../include/assembler.h"
 
-char	*ft_str_sub_n(char *s1, int n)
+char	*ft_str_sub_n(char *s1, size_t n)
 {
 	char	*s2;
-	int		i;
+	size_t	i;
 
 	if (!s1 || ft_strlen(s1) < n)
 		return (NULL);
