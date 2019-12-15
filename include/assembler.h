@@ -72,10 +72,14 @@ typedef struct	s_asm
 	t_lbl_arg	*lbl_arg_top;
 	t_lbl_arg	*lbl_arg_bot;
 	char		*error_str;
+	unsigned char	*buff;
+	size_t		buff_i;
+	char		*output_file_name;
 }				t_asm;
 
 char			*ft_str_sub_n(char *s1, int n);
 int				ft_atoi_asm(t_asm *ass, const char *str);
+void			delete_all(t_asm *ass);
 void			error_exit(t_asm *ass, int error_num);
 void			get_name_and_comment(t_asm *ass);
 
@@ -90,5 +94,7 @@ t_oper			*add_oper(t_asm *ass, int op_num);
 int				detect_op(t_asm *ass);
 
 void			add_lbl_arg(t_asm *ass, t_arg *arg, char *lbl);
+
+void    		write_to_file(t_asm *ass);
 
 #endif

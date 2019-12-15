@@ -52,7 +52,6 @@ void	reading(t_asm *ass)
 				if (ass->line[len] == LABEL_CHAR)
 				{
 					str = ft_str_sub_n(ass->line + ass->x, len - ass->x);
-					
 					if (!ass->lbl[hash(str)])
 					{
 						ass->lbl[hash(str)] = create_lbl(str, ass->current_pos);
@@ -107,18 +106,22 @@ int     main(int argc, char **argv)
 {
 	t_asm		*ass;
 
-	// if (argc != 2 || !ft_check_s1_end_with_s2(argv[1], ".s"))
-	// 	error_exit(NULL, 0);
+	if (argc == 1)
+	{
+		printf("Usage: ./asm (champion.s)\n");
+		return (0);
+	}
+	if (argc > 2 || !ft_check_s1_end_with_s2(argv[1], ".s"))
+		error_exit(NULL, 0);
 	if (!create_ass(&ass))
 		return (0);
 	ass->file_name = argv[1];
-	// if ((ass->fd = open(ass->file_name, O_RDONLY)) == -1)
-	// 	error_exit(ass, 1);
-	// if ((ass->fd = open("/Users/pnita/my_work/asm_for_corewar/my_champ.s", O_RDONLY)) == -1)
-	// 	error_exit(ass, 1);
-	if ((ass->fd = open("/home/lev/mywork/asm_for_corewar/my_champ.s", O_RDONLY)) == -1)
+	if ((ass->fd = open(ass->file_name, O_RDONLY)) == -1)
 		error_exit(ass, 1);
+	// if ((ass->fd = open("my_champ.s", O_RDONLY)) == -1)
+	// 	error_exit(ass, 1);
 	reading(ass);
 	fill_lbl_arg(ass);
+	write_to_file(ass);
 	return (0);
 }

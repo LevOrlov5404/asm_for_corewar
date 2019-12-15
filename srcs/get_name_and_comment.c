@@ -35,7 +35,6 @@ void	get_name(t_asm *ass)
 		}
 		++ass->x;
 	}
-	// printf("x = %i\n", ass->x);
 }
 
 void	get_comment(t_asm *ass)
@@ -61,7 +60,6 @@ void	get_comment(t_asm *ass)
 		}
 		++ass->x;
 	}
-	// printf("x = %i\n", ass->x);
 }
 
 void	get_name_and_comment(t_asm *ass)

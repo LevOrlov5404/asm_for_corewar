@@ -12,12 +12,6 @@
 
 #include "../include/assembler.h"
 
-void	delete_all(t_asm *ass)
-{
-	free(ass);
-	ass = NULL;
-}
-
 void	error_exit(t_asm *ass, int error_num)
 {
 	if (!error_num)

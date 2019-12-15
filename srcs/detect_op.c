@@ -149,7 +149,7 @@ void	do_with_oper(t_asm *ass, int op_num)
 	// printf("pos_num = %d op_size = %d\n", oper->pos_num, oper->size);
 	if ((ass->current_pos += oper->size) > CHAMP_MAX_SIZE)
 		error_exit(ass, 11);
-	printf("current pos = %d\n", ass->current_pos);
+	// printf("current pos = %d\n", ass->current_pos);
 }
 
 int 	detect_op(t_asm *ass)
