@@ -21,10 +21,10 @@ void	error_exit_part2(t_asm *ass, int error_num)
 		ft_printf("ERROR. Label \"%s\" not found\n", ass->error_str);
 	else if (error_num == 9)
 		ft_printf("ERROR. Size of champion name = %d > %d\n",
-				ass->name_len, PROG_NAME_LENGTH);
+				ass->n_i, PROG_NAME_LENGTH);
 	else if (error_num == 10)
 		ft_printf("ERROR. Size of champion comment = %d > %d\n",
-				ass->comment_len, COMMENT_LENGTH);
+				ass->c_i, COMMENT_LENGTH);
 	else if (error_num == 11)
 		ft_printf("ERROR. Size of champion code = %d > %d\n",
 				ass->current_pos, CHAMP_MAX_SIZE);

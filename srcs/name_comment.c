@@ -22,15 +22,20 @@ void	get_name(t_asm *ass)
 			break ;
 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 		{
-			if (ass->line[ass->x] == '\"' && !ass->name)
+			if (ass->line[ass->x] == '\"' && !ass->got_start_name)
 			{
+				ass->got_start_name = 1;
 				++ass->x;
-				ass->nc_i = 0;
 				while (ass->line[ass->x] && ass->line[ass->x] != '\"')
 				{
-					ass->name[ass->nc_i++] = ass->line[ass->x++];
-					if (ass->nc_i > PROG_NAME_LENGTH)
+					ass->name[ass->n_i++] = ass->line[ass->x++];
+					if (ass->n_i > PROG_NAME_LENGTH)
 						error_exit(ass, 9);
+				}
+				if (ass->line[ass->x] == '\"')
+				{
+					++ass->x;
+					ass->got_name = 1;
 				}
 			}
 			else
@@ -39,17 +44,26 @@ void	get_name(t_asm *ass)
 		else
 			++ass->x;
 	}
-	while (ass->line[ass->x] != '\"' && get_next_line(ass->fd, &ass->line) > 0)
+	if (!ass->got_name)
+		ft_strdel(&ass->line);
+	while (!ass->got_name && get_next_line(ass->fd, &ass->line) > 0)
 	{
+		ass->name[ass->n_i++] = '\n';
+		ass->x = 0;
 		++ass->y;
 		while (ass->line[ass->x] && ass->line[ass->x] != '\"')
 		{
-			ass->name[ass->nc_i++] = ass->line[ass->x++];
-			if (ass->nc_i > PROG_NAME_LENGTH)
+			ass->name[ass->n_i++] = ass->line[ass->x++];
+			if (ass->n_i > PROG_NAME_LENGTH)
 				error_exit(ass, 9);
 		}
+		if (ass->line[ass->x] == '\"')
+		{
+			++ass->x;
+			ass->got_name = 1;
+		}
 	}
-	if (!ass->name[0] || ass->line[ass->x] != '\"')
+	if (!ass->got_start_name || !ass->got_name)
 		error_exit(ass, 3);
 }
 
@@ -63,39 +77,54 @@ void	get_comment(t_asm *ass)
 			break ;
 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 		{
-			if (ass->line[ass->x] == '\"' && !ass->comment)
+			if (ass->line[ass->x] == '\"' && !ass->got_start_comment)
 			{
+				ass->got_start_comment = 1;
 				++ass->x;
-				ass->nc_i = 0;
 				while (ass->line[ass->x] && ass->line[ass->x] != '\"')
 				{
-					ass->comment[ass->nc_i++] = ass->line[ass->x++];
-					if (ass->nc_i > COMMENT_LENGTH)
-						error_exit(ass, 9);
+					ass->comment[ass->c_i++] = ass->line[ass->x++];
+					if (ass->c_i > COMMENT_LENGTH)
+						error_exit(ass, 10);
+				}
+				if (ass->line[ass->x] == '\"')
+				{
+					++ass->x;
+					ass->got_comment = 1;
 				}
 			}
 			else
 				error_exit(ass, 4);
 		}
-		++ass->x;
+		else
+			++ass->x;
 	}
-	while (ass->line[ass->x] != '\"' && get_next_line(ass->fd, &ass->line) > 0)
+	if (!ass->got_name)
+		ft_strdel(&ass->line);
+	while (!ass->got_comment && get_next_line(ass->fd, &ass->line) > 0)
 	{
+		ass->comment[ass->c_i++] = '\n';
+		ass->x = 0;
 		++ass->y;
 		while (ass->line[ass->x] && ass->line[ass->x] != '\"')
 		{
-			ass->comment[ass->nc_i++] = ass->line[ass->x++];
-			if (ass->nc_i > COMMENT_LENGTH)
-				error_exit(ass, 9);
+			ass->comment[ass->c_i++] = ass->line[ass->x++];
+			if (ass->c_i > COMMENT_LENGTH)
+				error_exit(ass, 10);
+		}
+		if (ass->line[ass->x] == '\"')
+		{
+			++ass->x;
+			ass->got_comment = 1;
 		}
 	}
-	if (!ass->comment[0] || ass->line[ass->x] != '\"')
+	if (!ass->got_start_comment || !ass->got_comment)
 		error_exit(ass, 3);
 }
 
 void	get_name_and_comment(t_asm *ass)
 {
-	while ((!ass->name || !ass->comment)
+	while ((!ass->got_start_name || !ass->got_start_comment)
 			&& get_next_line(ass->fd, &ass->line) > 0)
 	{
 		while (ass->line[ass->x])
@@ -121,6 +150,6 @@ void	get_name_and_comment(t_asm *ass)
 		ass->x = 0;
 		ft_strdel(&ass->line);
 	}
-	if (!ass->name[0] || !ass->comment[0])
+	if (!ass->got_start_name || !ass->got_start_comment)
 		error_exit(ass, 3);
 }

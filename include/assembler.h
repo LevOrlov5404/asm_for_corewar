@@ -62,11 +62,14 @@ typedef struct			s_asm
 	int					x;
 	int					cmd_name_len;
 	int					cmd_comment_len;
-	int					name_len;
-	int					comment_len;
 	char				*name;
+	int					n_i;
+	char				got_name;
+	char				got_start_name;
 	char				*comment;
-	int					nc_i;
+	int					c_i;
+	char				got_comment;
+	char				got_start_comment;
 	int					current_pos;
 	t_oper				*top;
 	t_oper				*bot;
