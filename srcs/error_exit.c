@@ -18,7 +18,7 @@ void	error_exit(t_asm *ass, int error_num)
 		printf("ERROR. Can be only one file and it's name must end with \".s\"\n");
 	else if (error_num == 1)
 	{
-		printf("ERROR. Can't open %s\n", ass->file_name);
+		printf("ERROR. Can't open file \"%s\". Permission denied\n", ass->file_name);
 	}
 	else if (error_num == 2)
 	{
@@ -61,7 +61,7 @@ void	error_exit(t_asm *ass, int error_num)
 		printf("ERROR. Size of champion code = %d > %d\n", ass->current_pos, CHAMP_MAX_SIZE);
 	}
 	else if (error_num == 12)
-		printf("ERROR: Can't create file: Permission denied\n");
+		printf("ERROR. Can't create file \"%s\". Permission denied\n", ass->output_file_name);
 	if (ass)
 		delete_all(ass);
 	exit(1);
