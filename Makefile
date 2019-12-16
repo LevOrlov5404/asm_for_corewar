@@ -25,8 +25,7 @@ HEADER = include
 SOURCES = assembler.c \
 		  dop_functions.c \
 		  error_exit.c \
-		  get_name_and_comment.c \
-		  get_name_and_comment2.c \
+		  name_comment.c \
 		  set_arg.c \
 		  do_with_oper.c \
 		  detect_op.c \

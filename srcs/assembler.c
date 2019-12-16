@@ -20,6 +20,8 @@ int		create_ass(t_asm **ass)
 		return (0);
 	new->cmd_name_len = ft_strlen(NAME_CMD_STRING);
 	new->cmd_comment_len = ft_strlen(COMMENT_CMD_STRING);
+	new->name = ft_strnew(PROG_NAME_LENGTH);
+	new->comment = ft_strnew(COMMENT_LENGTH);
 	new->lbl = (t_lbl**)ft_memalloc(sizeof(t_lbl*) * LBLS_SIZE);
 	*ass = new;
 	return (1);

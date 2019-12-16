@@ -24,26 +24,26 @@ void	get_name_part2(t_asm *ass)
 	ass->x += ass->name_len;
 }
 
-void	get_name(t_asm *ass)
-{
-	ass->x += ass->cmd_name_len;
-	while (ass->line[ass->x])
-	{
-		if (ass->line[ass->x] == COMMENT_CHAR
-				|| ass->line[ass->x] == ALT_COMMENT_CHAR)
-			break ;
-		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-		{
-			if (ass->line[ass->x] == '\"' && !ass->name)
-				get_name_part2(ass);
-			else
-				error_exit(ass, 4);
-		}
-		++ass->x;
-	}
-	if (!ass->name)
-		error_exit(ass, 3);
-}
+// void	get_name(t_asm *ass)
+// {
+// 	ass->x += ass->cmd_name_len;
+// 	while (ass->line[ass->x])
+// 	{
+// 		if (ass->line[ass->x] == COMMENT_CHAR
+// 				|| ass->line[ass->x] == ALT_COMMENT_CHAR)
+// 			break ;
+// 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
+// 		{
+// 			if (ass->line[ass->x] == '\"' && !ass->name)
+// 				get_name_part2(ass);
+// 			else
+// 				error_exit(ass, 4);
+// 		}
+// 		++ass->x;
+// 	}
+// 	if (!ass->name)
+// 		error_exit(ass, 3);
+// }
 
 void	get_comment_part2(t_asm *ass)
 {
@@ -58,23 +58,23 @@ void	get_comment_part2(t_asm *ass)
 	ass->x += ass->comment_len;
 }
 
-void	get_comment(t_asm *ass)
-{
-	ass->x += ass->cmd_comment_len;
-	while (ass->line[ass->x])
-	{
-		if (ass->line[ass->x] == COMMENT_CHAR
-				|| ass->line[ass->x] == ALT_COMMENT_CHAR)
-			break ;
-		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-		{
-			if (ass->line[ass->x] == '\"' && !ass->comment)
-				get_comment_part2(ass);
-			else
-				error_exit(ass, 4);
-		}
-		++ass->x;
-	}
-	if (!ass->comment)
-		error_exit(ass, 3);
-}
+// void	get_comment(t_asm *ass)
+// {
+// 	ass->x += ass->cmd_comment_len;
+// 	while (ass->line[ass->x])
+// 	{
+// 		if (ass->line[ass->x] == COMMENT_CHAR
+// 				|| ass->line[ass->x] == ALT_COMMENT_CHAR)
+// 			break ;
+// 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
+// 		{
+// 			if (ass->line[ass->x] == '\"' && !ass->comment)
+// 				get_comment_part2(ass);
+// 			else
+// 				error_exit(ass, 4);
+// 		}
+// 		++ass->x;
+// 	}
+// 	if (!ass->comment)
+// 		error_exit(ass, 3);
+// }

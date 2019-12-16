@@ -24,25 +24,25 @@ void	get_name_and_comment_part2(t_asm *ass)
 		error_exit(ass, 4);
 }
 
-void	get_name_and_comment(t_asm *ass)
-{
-	while ((!ass->name || !ass->comment)
-			&& get_next_line(ass->fd, &ass->line) > 0)
-	{
-		while (ass->line[ass->x])
-		{
-			if (ass->line[ass->x] == COMMENT_CHAR
-					|| ass->line[ass->x] == ALT_COMMENT_CHAR)
-				break ;
-			if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-				get_name_and_comment_part2(ass);
-			else
-				++ass->x;
-		}
-		++ass->y;
-		ass->x = 0;
-		ft_strdel(&ass->line);
-	}
-	if (!ass->comment || !ass->name)
-		error_exit(ass, 3);
-}
+// void	get_name_and_comment(t_asm *ass)
+// {
+// 	while ((!ass->name || !ass->comment)
+// 			&& get_next_line(ass->fd, &ass->line) > 0)
+// 	{
+// 		while (ass->line[ass->x])
+// 		{
+// 			if (ass->line[ass->x] == COMMENT_CHAR
+// 					|| ass->line[ass->x] == ALT_COMMENT_CHAR)
+// 				break ;
+// 			if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
+// 				get_name_and_comment_part2(ass);
+// 			else
+// 				++ass->x;
+// 		}
+// 		++ass->y;
+// 		ass->x = 0;
+// 		ft_strdel(&ass->line);
+// 	}
+// 	if (!ass->comment || !ass->name)
+// 		error_exit(ass, 3);
+// }

@@ -66,6 +66,7 @@ typedef struct			s_asm
 	int					comment_len;
 	char				*name;
 	char				*comment;
+	int					nc_i;
 	int					current_pos;
 	t_oper				*top;
 	t_oper				*bot;
