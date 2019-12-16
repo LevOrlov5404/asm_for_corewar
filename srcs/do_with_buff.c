@@ -129,7 +129,8 @@ void    write_to_file(t_asm *ass)
 	ass->output_file_name[i++] = 'c';
 	ass->output_file_name[i++] = 'o';
 	ass->output_file_name[i++] = 'r';
-	fd = open(ass->output_file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if ((fd = open(ass->output_file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)
+		error_exit(ass, 12);
 	write(fd, ass->buff, ass->buff_i);
 	close(fd);
 	printf("Writing output program to %s\n", ass->output_file_name);

@@ -27,7 +27,7 @@ SOURCES = assembler.c \
 		  error_exit.c \
 		  get_name_and_comment.c \
 		  detect_op.c \
-		  lbls.c \
+		  lbl.c \
 		  oper.c \
 		  arg.c \
 		  lbl_arg.c \

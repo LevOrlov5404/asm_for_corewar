@@ -54,10 +54,14 @@ void	do_with_lbl(t_asm *ass, int len)
 		}
 		if (!exist)
 			lbl = create_lbl(str, ass->current_pos);
+		else
+			ft_strdel(&str);
 	}
 	ass->x = len + 1;
 	while (ass->line[ass->x])
 	{
+		if (ass->line[ass->x] == COMMENT_CHAR || ass->line[ass->x] == ALT_COMMENT_CHAR)
+			break ;
 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 			error_exit(ass, 4);
 		++ass->x;

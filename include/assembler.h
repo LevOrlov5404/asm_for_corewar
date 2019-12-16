@@ -29,8 +29,8 @@ typedef struct		s_lbl
 typedef struct		s_arg
 {
 	unsigned char	bytes[4];
-	int				size; // to understand how many bites we need
-	char			code; // to understand code of arg: reg, dir ot ind
+	int				size;
+	char			code;
 }					t_arg;
 
 typedef struct			s_lbl_arg
@@ -46,7 +46,6 @@ typedef struct		s_oper
 	int				op_num;
 	t_ops			ops;
 	unsigned char	args_type_code;
-	int				pos_num; // we need it?
 	int				size;
 	struct s_arg	arg[3];
 	struct s_oper	*next;
@@ -65,7 +64,7 @@ typedef struct	s_asm
 	int			comment_len;
 	char		*name;
 	char		*comment;
-	int			current_pos; // to understand in what pos we are
+	int			current_pos;
 	t_oper		*top;
 	t_oper		*bot;
 	t_lbl		**lbl;
@@ -88,7 +87,7 @@ t_lbl			*create_lbl(char *name, int pos_num);
 t_lbl			*find_lbl(t_asm *ass, char *name);
 
 void			fill_arg(t_arg *arg, int val, int size, int code);
-t_oper			*create_oper(int op_num, int pos_num);
+t_oper			*create_oper(int op_num);
 t_oper			*add_oper(t_asm *ass, int op_num);
 
 int				detect_op(t_asm *ass);

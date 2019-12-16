@@ -38,7 +38,7 @@ void	error_exit(t_asm *ass, int error_num)
 	}
 	else if (error_num == 6)
 	{
-		printf("ERROR. T_REG can be only from 1 to 16\n");
+		printf("ERROR. T_REG can be only from 1 to 16 at [%.3i:%.3i]\n", ass->y + 1, ass->x + 1);
 	}
 	else if (error_num == 7)
 	{
@@ -46,7 +46,7 @@ void	error_exit(t_asm *ass, int error_num)
 	}
 	else if (error_num == 8)
 	{
-		printf("ERROR. Label %s not found\n", ass->error_str);
+		printf("ERROR. Label \"%s\" not found\n", ass->error_str);
 	}
 	else if (error_num == 9)
 	{
@@ -60,8 +60,8 @@ void	error_exit(t_asm *ass, int error_num)
 	{
 		printf("ERROR. Size of champion code = %d > %d\n", ass->current_pos, CHAMP_MAX_SIZE);
 	}
-	else
-		printf("ERROR\n");
+	else if (error_num == 12)
+		printf("ERROR: Can't create file: Permission denied\n");
 	if (ass)
 		delete_all(ass);
 	exit(1);

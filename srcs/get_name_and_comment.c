@@ -14,10 +14,11 @@
 
 void	get_name(t_asm *ass)
 {
-	// printf("IN GET_NAME\n");
 	ass->x += ass->cmd_name_len;
 	while (ass->line[ass->x])
 	{
+		if (ass->line[ass->x] == COMMENT_CHAR || ass->line[ass->x] == ALT_COMMENT_CHAR)
+			break ;
 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 		{
 			if (ass->line[ass->x] == '\"' && !ass->name)
@@ -35,14 +36,17 @@ void	get_name(t_asm *ass)
 		}
 		++ass->x;
 	}
+	if (!ass->name)
+		error_exit(ass, 3);
 }
 
 void	get_comment(t_asm *ass)
 {
-	// printf("IN GET_COMMENT\n");
 	ass->x += ass->cmd_comment_len;
 	while (ass->line[ass->x])
 	{
+		if (ass->line[ass->x] == COMMENT_CHAR || ass->line[ass->x] == ALT_COMMENT_CHAR)
+			break ;
 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 		{
 			if (ass->line[ass->x] == '\"' && !ass->comment)
@@ -60,6 +64,8 @@ void	get_comment(t_asm *ass)
 		}
 		++ass->x;
 	}
+	if (!ass->comment)
+		error_exit(ass, 3);
 }
 
 void	get_name_and_comment(t_asm *ass)
@@ -68,6 +74,8 @@ void	get_name_and_comment(t_asm *ass)
 	{
 		while (ass->line[ass->x])
 		{
+			if (ass->line[ass->x] == COMMENT_CHAR || ass->line[ass->x] == ALT_COMMENT_CHAR)
+				break ;
 			if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 			{
 				if (!ft_strncmp(ass->line + ass->x, NAME_CMD_STRING, ass->cmd_name_len))
@@ -82,8 +90,8 @@ void	get_name_and_comment(t_asm *ass)
 		}
 		++ass->y;
 		ass->x = 0;
+		ft_strdel(&ass->line);
 	}
 	if (!ass->comment || !ass->name)
 		error_exit(ass, 3);
-	// printf("name = %s	comment = %s\n", ass->name, ass->comment);
 }

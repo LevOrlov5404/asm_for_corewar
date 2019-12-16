@@ -1,16 +1,24 @@
-.comment"aff, just kidding"
-.name"laugh"                   
+#sdhjdww   #sghwww
+	 	 	 	 	#swwswsw
+   .comment "#aff, just kidding"
+.name"laugh"    #dedeedee               
+;ewwsws
+
+;swwsw
+
 
 #dieedede
+			#sjhasa
+lif1eiscor: #sswwwswsw
 
-lif1eiscor: 
-live:
-	live	%30
+			    live:
+	live  	  		%30
 ld		%:stop, r16
 	st r6 ,  11 #lskwowowww
 st:
 st:
 st:
+st:  ;ds
 st:
 
 stop:
@@ -24,11 +32,22 @@ stop:
 	ld		%0, r16
 	zjmp	%:start
 
+#lf:
+;lf:
+;lf:
+;lf:
 lf:
+
 	live	%9999999
 	lfork	%:lf
 
+
 start:
+start:
+start:
+start:
+start:
+
 	ld		-3, r9
 	ld		-13, r7
 	ld		:lf, r8
@@ -41,8 +60,8 @@ start:
 
 initlive:
 	st		r1, 58
-	st		r1, 58
-	st		r1, 58
+	st		r15, 58
+	st		r1, r2
 	st		r1, 58
 	st		r1, 58
 	st		r1, 58
@@ -52,7 +71,6 @@ initlive:
 	st		r1, 58
 	ld		%0, r16
 
-live:
 	live	%93999
 	live	%93999
 	live	%93999
@@ -80,3 +98,65 @@ forward:
 	ld		%0, r16
 	zjmp	%:forward
 
+
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+live	%93999
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+ld		%0, r16
+st		r1 , r16
+st		r1 , r16
+
+
+		  
