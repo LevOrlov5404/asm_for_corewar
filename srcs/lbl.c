@@ -66,7 +66,7 @@ void			do_with_lbl_part2(t_asm *ass, char **str)
 		}
 	}
 	if (!exist)
-		lbl = create_lbl(*str, ass->current_pos);
+		lbl->same_hash = create_lbl(*str, ass->current_pos);
 	else
 		ft_strdel(str);
 }
@@ -86,8 +86,9 @@ void			do_with_lbl(t_asm *ass, int len)
 		if (ass->line[ass->x] == COMMENT_CHAR
 				|| ass->line[ass->x] == ALT_COMMENT_CHAR)
 			break ;
-		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-			error_exit(ass, 4);
-		++ass->x;
+		if (ass->line[ass->x] == ' ' || ass->line[ass->x] == '\t')
+			++ass->x;
+		else if (ass->line[ass->x] && !detect_op(ass))
+			error_exit(ass, 7);
 	}
 }

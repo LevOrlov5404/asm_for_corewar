@@ -107,6 +107,9 @@ void	write_to_file(t_asm *ass)
 	if ((fd = open(ass->output_file_name,
 			O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)
 		error_exit(ass, 12);
+	// if ((fd = open("test.cor",
+	// 		O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)
+	// 	error_exit(ass, 12);
 	write(fd, ass->buff, ass->buff_i);
 	close(fd);
 	ft_printf("Writing output program to %s\n", ass->output_file_name);

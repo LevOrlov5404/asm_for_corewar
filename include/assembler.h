@@ -91,8 +91,6 @@ size_t					hash(char *input);
 t_lbl					*create_lbl(char *name, int pos_num);
 t_lbl					*find_lbl(t_asm *ass, char *name);
 
-void					do_with_lbl(t_asm *ass, int len);
-
 void					fill_arg(t_arg *arg, int val, int size, int code);
 t_oper					*create_oper(int op_num);
 t_oper					*add_oper(t_asm *ass, int op_num);
@@ -101,6 +99,8 @@ void					set_arg_value(t_asm *ass, t_arg *arg,
 		char type, int dir_size);
 void					do_with_oper(t_asm *ass, int op_num);
 int						detect_op(t_asm *ass);
+
+void					do_with_lbl(t_asm *ass, int len);
 
 void					add_lbl_arg(t_asm *ass, t_arg *arg, char *lbl);
 

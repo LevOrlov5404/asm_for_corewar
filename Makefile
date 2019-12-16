@@ -12,7 +12,7 @@
 
 NAME = asm
 
-FLAG = -Wall -Wextra -Werror
+FLAG = #-Wall -Wextra -Werror
 
 FT_PRINTF = ft_printf
 

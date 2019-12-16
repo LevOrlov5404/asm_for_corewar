@@ -8,10 +8,10 @@
 
 
 #dieedede
-			#sjhasa
+			#sjhasaerregt
 lif1eiscor: #sswwwswsw
 
-			    live:
+	asc		    live:
 	live  	  		%30
 ld		%:stop, r16
 	st r6 ,  11 #lskwowowww
