@@ -101,6 +101,7 @@ void				ft_lstiter(t_list *lst, void (*f)(t_list
 					*elem));
 t_list				*ft_lstmap(t_list *lst, t_list
 					*(*f)(t_list *elem));
+void				ft_sort_params(char **str);
 char				*ft_strupcase(char *str);
 char				*ft_strlowcase(char *str);
 char				*ft_strcapitalize(char *str);
@@ -110,6 +111,6 @@ int					ft_len_before_delim(const char *s, char c);
 int					pos_of_n(char *s);
 int					get_next_line(const int fd, char **line);
 int					ft_strn_only_digit(char *str, int n);
-int     			ft_check_s1_end_with_s2(char *s1, char *s2);
+int					ft_check_s1_end_with_s2(char *s1, char *s2);
 
 #endif

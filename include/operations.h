@@ -22,7 +22,7 @@ typedef struct				s_ops
 	u_int8_t				opcode;
 	int						args_number;
 	int						args_type[3];
-	int 					affect_carry;
+	int						affect_carry;
 	int						args_type_code;
 	int						t_dir_size;
 	int						cycles;

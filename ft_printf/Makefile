@@ -5,38 +5,26 @@
 #                                                     +:+ +:+         +:+      #
 #    By: pnita <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/12/10 21:05:08 by pnita             #+#    #+#              #
-#    Updated: 2019/12/10 21:05:09 by pnita            ###   ########.fr        #
+#    Created: 2019/04/07 17:43:11 by pnita             #+#    #+#              #
+#    Updated: 2019/04/07 18:30:46 by pnita            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = asm
+NAME = libftprintf.a
 
-FLAG = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
-FT_PRINTF = ft_printf
+LIBFT = sources/libft
 
-DIR_S = srcs
+DIR_S = sources
 
 DIR_O = temporary
 
 HEADER = include
 
-SOURCES = assembler.c \
-		  dop_functions.c \
-		  error_exit.c \
-		  get_name_and_comment.c \
-		  get_name_and_comment2.c \
-		  set_arg.c \
-		  do_with_oper.c \
-		  detect_op.c \
-		  lbl.c \
-		  oper.c \
-		  arg.c \
-		  lbl_arg.c \
-		  join_s_to_buff.c \
-		  do_with_buff.c \
-		  delete.c \
+SOURCES = ft_printf.c do_with_f.c do_with_i.c do_with_o_get_oux.c \
+do_with_per_c_s_p.c do_with_ux_and_par_to_beg.c f_get_strings.c \
+f_m_and_str_plus.c f_round_f_sign.c f_to_buff_and_images.c ft_printf.c set_par.c
 
 SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
 
@@ -46,11 +34,13 @@ all: $(NAME)
 
 FORCE:		;
 
-$(FT_PRINTF):	FORCE
-	make -C $(FT_PRINTF)
+$(LIBFT):	FORCE
+	make -C $(LIBFT)
 
-$(NAME): $(FT_PRINTF) $(OBJS) $(FT_PRINTF)/libftprintf.a $(HEADER)/*.h
-	gcc -o $(NAME) $(FLAG) $(SRCS) $(FT_PRINTF)/libftprintf.a -g
+$(NAME): $(LIBFT) $(OBJS) $(LIBFT)/libft.a $(HEADER)/ft_printf.h
+	cp sources/libft/libft.a ./$(NAME)
+	ar rc $(NAME) $(OBJS)
+	ranlib $(NAME)
 
 $(DIR_O)/%.o: $(DIR_S)/%.c
 	mkdir -p temporary
@@ -59,10 +49,10 @@ $(DIR_O)/%.o: $(DIR_S)/%.c
 clean:
 	rm -rf $(DIR_O)
 	rm -f $(OBJS)
-	make clean -C $(FT_PRINTF)
+	make clean -C $(LIBFT)
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C $(FT_PRINTF)
+	make fclean -C $(LIBFT)
 
 re: fclean all

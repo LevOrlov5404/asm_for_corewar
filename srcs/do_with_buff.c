@@ -26,33 +26,6 @@ void	put_s_in_bytes(unsigned char *s, int size, int val)
 	}
 }
 
-void    join_uns_s_to_buff(t_asm *ass, unsigned char *s, int size)
-{
-	int i;
-
-	if (!s)
-		return ;
-	i = 0;
-	while (i < size)
-	{
-		ass->buff[ass->buff_i++] = s[i++];
-	}
-}
-
-void    join_s_to_buff(t_asm *ass, char *s)
-{
-	int i;
-
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
-	{
-		ass->buff[ass->buff_i++] = s[i++];
-	}
-}
-
-
 void	join_nuls_to_buff(t_asm *ass, int size)
 {
 	int i;
@@ -95,7 +68,9 @@ void	forme_output(t_asm *ass)
 {
 	unsigned char	*s;
 
-	ass->buff = (unsigned char*)ft_memalloc(sizeof(unsigned char) * (COREWAR_EXEC_MAGIC + PROG_NAME_LENGTH + 4 + 4 + 2048 + 4 + ass->current_pos));
+	ass->buff = (unsigned char*)ft_memalloc(sizeof(unsigned char) *
+			(COREWAR_EXEC_MAGIC + PROG_NAME_LENGTH
+			+ 4 + 4 + 2048 + 4 + ass->current_pos));
 	s = (unsigned char*)ft_memalloc(sizeof(unsigned char) * 5);
 	put_s_in_bytes(s, 4, COREWAR_EXEC_MAGIC);
 	join_uns_s_to_buff(ass, s, 4);
@@ -111,15 +86,15 @@ void	forme_output(t_asm *ass)
 	s = NULL;
 }
 
-void    write_to_file(t_asm *ass)
+void	write_to_file(t_asm *ass)
 {
 	int	fd;
-	int len;
+	int	len;
+	int	i;
 
 	forme_output(ass);
 	len = ft_strlen(ass->file_name);
 	ass->output_file_name = ft_strnew(len + 2);
-	int	i;
 	i = 0;
 	while (i < len - 1)
 	{
@@ -129,10 +104,11 @@ void    write_to_file(t_asm *ass)
 	ass->output_file_name[i++] = 'c';
 	ass->output_file_name[i++] = 'o';
 	ass->output_file_name[i++] = 'r';
-	if ((fd = open(ass->output_file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)
+	if ((fd = open(ass->output_file_name,
+			O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)
 		error_exit(ass, 12);
 	write(fd, ass->buff, ass->buff_i);
 	close(fd);
-	printf("Writing output program to %s\n", ass->output_file_name);
+	ft_printf("Writing output program to %s\n", ass->output_file_name);
 	delete_all(ass);
 }

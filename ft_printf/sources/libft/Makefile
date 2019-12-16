@@ -20,7 +20,7 @@ ft_memalloc.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
 ft_memcpy.c ft_memdel.c ft_memmove.c ft_memset.c \
 ft_putchar.c ft_putchar_fd.c ft_putendl.c ft_putendl_fd.c \
 ft_putnbr.c ft_putnbr_fd.c ft_putstr.c ft_putstr_fd.c \
-ft_reverse.c ft_strcapitalize.c ft_strcat.c \
+ft_reverse.c ft_sort_params.c ft_strcapitalize.c ft_strcat.c \
 ft_strchr.c ft_strclr.c ft_strcmp.c ft_strcpy.c \
 ft_strdel.c ft_strdup.c ft_strequ.c ft_striter.c \
 ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlen.c \
@@ -37,16 +37,16 @@ INCLUDES = ./
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
 
 $(OBJ) : $(SRC) libft.h
-	gcc -Wall -Wextra -Werror -I $(INCLUDES) -c $(SRC)
+	@gcc -Wall -Wextra -Werror -I $(INCLUDES) -c $(SRC)
 
 clean:
-	/bin/rm -f *.o
+	@/bin/rm -f *.o
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME)
 
 re: fclean all
