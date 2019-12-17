@@ -97,8 +97,6 @@ int		main(int argc, char **argv)
 	ass->file_name = argv[1];
 	if ((ass->fd = open(ass->file_name, O_RDONLY)) == -1)
 		error_exit(ass, 1);
-	// if ((ass->fd = open("my_champ.s", O_RDONLY)) == -1)
-	// 	error_exit(ass, 1);
 	reading(ass);
 	fill_lbl_arg(ass);
 	write_to_file(ass);

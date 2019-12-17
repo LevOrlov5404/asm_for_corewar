@@ -1,10 +1,9 @@
 #sdhjdww   #sghwww
 	 	 	 	 	#swwswsw
-   .comment "#aff, just " ;33232
+   .comment "www" ;33232
         ; swwsw  # kek kidding" #shwsusw
-.name"laug
-dwddwdwh 
-dswdwwdwww"        ;sw swwsws       
-;ewwsws
+.name"l
+
+asd"
 
 live %46

@@ -12,58 +12,49 @@
 
 #include "../include/assembler.h"
 
-void	get_name(t_asm *ass)
+void	get_start_comment(t_asm *ass)
 {
-	ass->x += ass->cmd_name_len;
-	while (ass->line[ass->x])
+	ass->got_start_comment = 1;
+	++ass->x;
+	while (ass->line[ass->x] && ass->line[ass->x] != '\"')
 	{
-		if (ass->line[ass->x] == COMMENT_CHAR
-				|| ass->line[ass->x] == ALT_COMMENT_CHAR)
-			break ;
-		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-		{
-			if (ass->line[ass->x] == '\"' && !ass->got_start_name)
-			{
-				ass->got_start_name = 1;
-				++ass->x;
-				while (ass->line[ass->x] && ass->line[ass->x] != '\"')
-				{
-					ass->name[ass->n_i++] = ass->line[ass->x++];
-					if (ass->n_i > PROG_NAME_LENGTH)
-						error_exit(ass, 9);
-				}
-				if (ass->line[ass->x] == '\"')
-				{
-					++ass->x;
-					ass->got_name = 1;
-				}
-			}
-			else
-				error_exit(ass, 4);
-		}
-		else
-			++ass->x;
+		ass->comment[ass->c_i++] = ass->line[ass->x++];
+		if (ass->c_i > COMMENT_LENGTH)
+			error_exit(ass, 10);
 	}
-	if (!ass->got_name)
-		ft_strdel(&ass->line);
-	while (!ass->got_name && get_next_line(ass->fd, &ass->line) > 0)
+	if (ass->line[ass->x] == '\"')
 	{
-		ass->name[ass->n_i++] = '\n';
+		++ass->x;
+		ass->got_comment = 1;
+	}
+}
+
+void	get_comment_part2(t_asm *ass)
+{
+	if (!ass->got_comment)
+		ft_strdel(&ass->line);
+	while (!ass->got_comment && get_next_line(ass->fd, &ass->line) > 0)
+	{
+		ass->comment[ass->c_i++] = '\n';
+		if (ass->c_i > COMMENT_LENGTH)
+			error_exit(ass, 10);
 		ass->x = 0;
 		++ass->y;
 		while (ass->line[ass->x] && ass->line[ass->x] != '\"')
 		{
-			ass->name[ass->n_i++] = ass->line[ass->x++];
-			if (ass->n_i > PROG_NAME_LENGTH)
-				error_exit(ass, 9);
+			ass->comment[ass->c_i++] = ass->line[ass->x++];
+			if (ass->c_i > COMMENT_LENGTH)
+				error_exit(ass, 10);
 		}
 		if (ass->line[ass->x] == '\"')
 		{
 			++ass->x;
-			ass->got_name = 1;
+			ass->got_comment = 1;
 		}
+		if (!ass->got_comment)
+			ft_strdel(&ass->line);
 	}
-	if (!ass->got_start_name || !ass->got_name)
+	if (!ass->got_start_comment || !ass->got_comment)
 		error_exit(ass, 3);
 }
 
@@ -78,48 +69,26 @@ void	get_comment(t_asm *ass)
 		if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
 		{
 			if (ass->line[ass->x] == '\"' && !ass->got_start_comment)
-			{
-				ass->got_start_comment = 1;
-				++ass->x;
-				while (ass->line[ass->x] && ass->line[ass->x] != '\"')
-				{
-					ass->comment[ass->c_i++] = ass->line[ass->x++];
-					if (ass->c_i > COMMENT_LENGTH)
-						error_exit(ass, 10);
-				}
-				if (ass->line[ass->x] == '\"')
-				{
-					++ass->x;
-					ass->got_comment = 1;
-				}
-			}
+				get_start_comment(ass);
 			else
 				error_exit(ass, 4);
 		}
 		else
 			++ass->x;
 	}
-	if (!ass->got_name)
-		ft_strdel(&ass->line);
-	while (!ass->got_comment && get_next_line(ass->fd, &ass->line) > 0)
-	{
-		ass->comment[ass->c_i++] = '\n';
-		ass->x = 0;
-		++ass->y;
-		while (ass->line[ass->x] && ass->line[ass->x] != '\"')
-		{
-			ass->comment[ass->c_i++] = ass->line[ass->x++];
-			if (ass->c_i > COMMENT_LENGTH)
-				error_exit(ass, 10);
-		}
-		if (ass->line[ass->x] == '\"')
-		{
-			++ass->x;
-			ass->got_comment = 1;
-		}
-	}
-	if (!ass->got_start_comment || !ass->got_comment)
-		error_exit(ass, 3);
+	get_comment_part2(ass);
+}
+
+void	get_name_and_comment_part2(t_asm *ass)
+{
+	if (!ft_strncmp(ass->line + ass->x, NAME_CMD_STRING,
+			ass->cmd_name_len) && !ass->name[0])
+		get_name(ass);
+	else if (!ft_strncmp(ass->line + ass->x, COMMENT_CMD_STRING,
+			ass->cmd_comment_len) && !ass->comment[0])
+		get_comment(ass);
+	else
+		error_exit(ass, 4);
 }
 
 void	get_name_and_comment(t_asm *ass)
@@ -133,16 +102,7 @@ void	get_name_and_comment(t_asm *ass)
 					|| ass->line[ass->x] == ALT_COMMENT_CHAR)
 				break ;
 			if (ass->line[ass->x] != ' ' && ass->line[ass->x] != '\t')
-			{
-				if (!ft_strncmp(ass->line + ass->x, NAME_CMD_STRING,
-						ass->cmd_name_len) && !ass->name[0])
-					get_name(ass);
-				else if (!ft_strncmp(ass->line + ass->x, COMMENT_CMD_STRING,
-						ass->cmd_comment_len) && !ass->comment[0])
-					get_comment(ass);
-				else
-					error_exit(ass, 4);
-			}
+				get_name_and_comment_part2(ass);
 			else
 				++ass->x;
 		}

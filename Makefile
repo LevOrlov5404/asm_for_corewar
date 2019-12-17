@@ -26,6 +26,7 @@ SOURCES = assembler.c \
 		  dop_functions.c \
 		  error_exit.c \
 		  name_comment.c \
+		  get_name.c \
 		  set_arg.c \
 		  do_with_oper.c \
 		  detect_op.c \
