@@ -65,13 +65,12 @@ void	set_t_ind(t_asm *ass, t_arg *arg)
 		set_lbl(ass, arg, 2, IND_CODE);
 	else if (ass->line[ass->x] == '-')
 	{
-		++ass->x;
-		if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
+		if (ass->line[ass->x + 1] >= '0' && ass->line[ass->x + 1] <= '9')
 			fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2, IND_CODE);
 		else
 			error_exit(ass, 4);
 	}
-	else if (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9')
+	else if (ass->line[ass->x] == '-' || (ass->line[ass->x] >= '0' && ass->line[ass->x] <= '9'))
 		fill_arg(arg, ft_atoi_asm(ass, ass->line + ass->x), 2, IND_CODE);
 	else
 		error_exit(ass, 4);

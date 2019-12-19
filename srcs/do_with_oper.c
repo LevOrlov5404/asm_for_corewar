@@ -49,8 +49,10 @@ void	do_with_oper(t_asm *ass, int op_num)
 	if (oper->tmp_arg < oper->ops.args_number)
 		error_exit(ass, 5);
 	if (oper->ops.args_type_code)
+	{
 		oper->args_type_code = (oper->arg[0].code << 6)
-				| (oper->arg[1].code << 4) | oper->arg[2].code;
+				| (oper->arg[1].code << 4) | (oper->arg[2].code << 2);
+	}
 	oper->size = (oper->ops.args_type_code ? 2 : 1)
 			+ oper->arg[0].size + oper->arg[1].size + oper->arg[2].size;
 	if ((ass->current_pos += oper->size) > CHAMP_MAX_SIZE)
